@@ -46,7 +46,7 @@ class PapaGraph:
     def add_feature(self, key:str, value:any):
         self.__graph_features[key] = value
 
-    def add_edge(self, u:int, v:int, features:dict):
+    def add_edge(self, u:int, v:int, features:dict={}):
         '''Add edge from node `u` to node `v` with features `features` 
         '''
         assert u>=0 and u<self.__nodes_number
@@ -60,9 +60,10 @@ class PapaGraph:
     def add_node(self,features:dict = {}):
         self.__nodes_number = self.__nodes_number + 1
         self.__nodes_features.append(features)
+        self.__adjacency_list.append([])
 
-    def add_nodes(self,quantity:int, features_list:list[dict]=None):
-        if features_list == None:
+    def add_nodes(self,quantity:int, features_list:list[dict]=[]):
+        if len(features_list) == 0:
             assert quantity > 0
 
             for i in range(quantity):
@@ -88,5 +89,5 @@ if __name__ == '__main__':
     print(graph.adjacency_list)
     print(graph.graph_features)
     '''
-    graph.add_nodes(quantity=5)
+    graph.add_nodes(quantity=2, features_list=[{},{}] )
     print(graph.nodes_features)

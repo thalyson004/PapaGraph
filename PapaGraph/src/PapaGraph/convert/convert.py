@@ -1,6 +1,6 @@
 
 from PapaGraph.PapaGraph.PapaGraph import PapaGraph
-
+from ogb.io.read_graph_raw import read_csv_graph_raw
 
 def convert_from_ogb(ogb_graph:dict):
     try:
@@ -14,16 +14,24 @@ def convert_from_ogb(ogb_graph:dict):
         return None
 
     ans = PapaGraph()
-    ans.nodes_number = nodes_number
-    ans.nodes_features = nodes_features
 
-    ans.edges_number = len(edges[0])
-    for i in range(ans.edges_number):
-        ans.edges_list.append( (edges[0][i], edges[1][i]) )
-    
-    ans.edges_features = edges_features 
+    # TODO: Change nodes_features from list[list] to list[dict]
+    ans.add_nodes(nodes_number, nodes_features)
+
+    # print(len(edges_features))
+    # print(edges_features)
+    # print(ans.nodes_number, edges[0][0], edges[1][0])
+
+    # TODO: Change edges_features from list[list] to list[dict]
+    for i in range(len(edges_features)):
+        # print(edges_features[i])
+        ans.add_edge( edges[0][i], edges[1][i], features=edges_features[i] ) 
 
     return ans
 
 if __name__ == '__main__':
-    print("Test")
+    graphs = read_csv_graph_raw("E:/Projetos/Doctorate/MLG/Machine-Learning-with-Graphs/data/homework02/ogbg_molhiv/raw")
+    graph = convert_from_ogb(graphs[0])
+
+    print(graph.edges_features, "\n")
+    print(graph.nodes_features, "\n")
