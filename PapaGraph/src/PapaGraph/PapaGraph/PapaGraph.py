@@ -46,11 +46,15 @@ class PapaGraph:
     def add_feature(self, key:str, value:any):
         self.__graph_features[key] = value
 
-    def add_edge(self, u:int, v:int, features:dict={}):
+    def add_edge(self, u:int, v:int, features:dict={}, bidirectional:bool = False):
         '''Add edge from node `u` to node `v` with features `features` 
+        If `bidirectional` is True, it will create a edge(v,u) too.
         '''
         assert u>=0 and u<self.__nodes_number
         assert v>=0 and v<self.__nodes_number
+
+        if bidirectional==True:
+            self.add_edge(v,u, features=features)
         
         self.__edges_list.append( (u,v) )
         self.__edges_features.append(features)
