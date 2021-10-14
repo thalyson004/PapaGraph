@@ -5,11 +5,18 @@ import random
 
 # TODO: If i'm on node with no neighbors, actual algorithm not work properly
 def random_walk(graph:PapaGraph, start:int, lenght:int, p:float=1.0, q:float=1.0):
-    '''Generate a random_walk starting.
+    '''Generate a random walk starting from `start`
+
+    Input
+    ----
     `start`: Start node
     `lenght`: Lenght of the walk
     `p`: Return paramenter
     `q`: In-Out paramenter
+
+    Output
+    ----
+    `walk`: A list of nodes representing a random walk
     '''
     assert start>=0 and start<graph.nodes_number
     assert isinstance(p, float)
@@ -47,8 +54,30 @@ def random_walk(graph:PapaGraph, start:int, lenght:int, p:float=1.0, q:float=1.0
         
         walk.append(actual)
 
-    return walk    
+    return walk   
+
+def random_walk_r(graph:PapaGraph, start:int, r:int, lenght:int, p:float=1.0, q:float=1.0): 
+    '''Generate ``r`` random walks starting from `start`.
+    
+    Input
+    ----
+    `start`: Start node
+    `lenght`: Lenght of the walk
+    `r`: Quantity of random walks
+    `p`: Return paramenter
+    `q`: In-Out paramenter
+
+    Output
+    ----
+    `walks`: A list of lists of nodes representing random walks
+    '''
+
+    walks = []
+    for i in range(r):
+        walks.append(random_walk(graph, start, lenght, p, q))
+    return walks
 
 if __name__ == '__main__':
     graph = handmade_sample()
-    print(random_walk(graph, 0, 5))
+    # print(random_walk(graph, 0, 5))
+    print(random_walk_r(graph, 0, 5, 4))
