@@ -80,7 +80,9 @@ class PapaGraph:
 
     #TODO: neighbors of a node
     def neighbors(self, node_index:int):
-        pass
+        '''Return a list of pairs<``neighbor_node``, ``edge_index``>
+        '''
+        return self.adjacency_list[node_index]
 
 if __name__ == '__main__':
     graph = PapaGraph()
