@@ -1,0 +1,1 @@
+from PapaGraph.feature.node2vec import node2vec
