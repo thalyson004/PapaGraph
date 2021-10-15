@@ -56,11 +56,12 @@ def random_walk(graph:PapaGraph, start:int, lenght:int, p:float=1.0, q:float=1.0
 
     return walk   
 
-def random_walk_r(graph:PapaGraph, start:int, r:int, lenght:int, p:float=1.0, q:float=1.0): 
+def random_walk_r(graph:PapaGraph, start:int, r:int=3, lenght:int=10, p:float=1.0, q:float=1.0): 
     '''Generate ``r`` random walks starting from `start`.
     
     Input
     ----
+    `graph`: A PapaGraph
     `start`: Start node
     `lenght`: Lenght of the walk
     `r`: Quantity of random walks
@@ -76,6 +77,34 @@ def random_walk_r(graph:PapaGraph, start:int, r:int, lenght:int, p:float=1.0, q:
     for i in range(r):
         walks.append(random_walk(graph, start, lenght, p, q))
     return walks
+
+def probability_matrix(graph:PapaGraph, r:int=10, lenght:int=10, p:float=1.0, q:float=1.0):
+    '''Returns a matrix `probabilities` that cell ``[u][v]``
+    represents the probability to reach node `v` from node `u`
+    by a random walk.
+
+    Input
+    ----
+    `graph`: A PapaGraph
+    `r`: Quantity of random walks
+    `lenght`: Lenght of the walk
+    `p`: Return paramenter
+    `q`: In-Out paramenter
+
+    Output
+    ----
+    `probabilities`: Probability matrix
+    '''
+    probabilities = [[ 0.0 for i in range(graph.nodes_number) ] for j in range(graph.nodes_number)]
+    for u in range(graph.nodes_number):
+        walks = random_walk_r(graph, u, r, lenght, p, q)
+        for walk in walks:
+            in_path:set = set(walk)
+
+            for v in in_path:
+                probabilities[u][v] = probabilities[u][v] + 1/r
+
+    return probabilities
 
 if __name__ == '__main__':
     graph = handmade_sample()
