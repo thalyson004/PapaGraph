@@ -5,15 +5,12 @@ from gensim.models import Word2Vec
 import random 
 import math
 
-def listOfList2Words(lists:list[list])->list[list[str]]:
-    _ = []
-    for l in lists:
-        _.append('&'.join( list((str(word) for word in l)) ))
-    return _ 
+def listOfListAny2listOfListStr(lists:list[list])->list[list[str]]:
+    return [[str(w) for w in word] for word in lists]
 
 def node2vec(   graph: PapaGraph, d:int=3, r:int=10, 
                 lenght:int=10, p:float=1.0, q:float=1.0, 
-                steps:int=1000, learning_rate:float=0.0001):
+                steps:int=5, learning_rate:float=0.025):
     ''' Return a matrix that mapping each node in a `d` dimensional space.
 
     Input
@@ -24,7 +21,7 @@ def node2vec(   graph: PapaGraph, d:int=3, r:int=10,
     `lenght`: Lenght of each random walk
     `p`: Return parameter
     `q`: In-Out paramenter
-    `steps`: Number of steps on Stochastic Gradiente Descent
+    `steps`: Number of steps using Gradiente Descent
     Output
     ----
     `features`: Mapping matrix
@@ -32,17 +29,22 @@ def node2vec(   graph: PapaGraph, d:int=3, r:int=10,
     '''
     
     walks = random_walk_r_all(graph, r=r, lenght=lenght, p=p, q=q)
+    words = listOfListAny2listOfListStr(walks)
+    model = Word2Vec(   words, 
+                        window=5, min_count=1, sg=1, 
+                        workers=2, alpha=learning_rate,
+                        epochs=steps)
+    '''
+        This model give features for each node
+        To get features by node, use: model.wv[str(0)]
+    '''
+    
+    
 
-
-    return walks
+    return words
 
 if __name__ == '__main__':
     graph = handmade_sample()
     
-    walks = node2vec(graph, lenght=5, r=3)
-    _ = []
-    for walk in walks:
-        _.append('&'.join( list((str(w) for w in walk)) ))
-    print(_)
+    words = node2vec(graph, lenght=5, r=3)
 
-    #model = Word2Vec(str_walks, size=128, window=5, min_count=0, sg=1, workers=2, iter=1)
