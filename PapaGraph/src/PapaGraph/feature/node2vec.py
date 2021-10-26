@@ -10,8 +10,7 @@ def listOfListAny2listOfListStr(lists:list[list])->list[list[str]]:
 
 def node2vec(   graph: PapaGraph, d:int=3, r:int=10, 
                 lenght:int=10, p:float=1.0, q:float=1.0, 
-                steps:int=5, learning_rate:float=0.025,
-                features:int=10) -> dict[int, list]:
+                steps:int=5, learning_rate:float=0.025) -> dict[int, list]:
     ''' Return a matrix that mapping each node in a `d` dimensional space.
 
     Input
@@ -23,10 +22,9 @@ def node2vec(   graph: PapaGraph, d:int=3, r:int=10,
     `p`: Return parameter
     `q`: In-Out paramenter
     `steps`: Number of steps using Gradiente Descent
-    `features`: Number of features for each node
     Output
     ----
-    `features`: Mapping matrix
+    `features`: Dictionary that mapping node to features
 
     '''
     
@@ -35,23 +33,61 @@ def node2vec(   graph: PapaGraph, d:int=3, r:int=10,
     model = Word2Vec(   words, 
                         window=5, min_count=1, sg=1, 
                         workers=2, alpha=learning_rate,
-                        epochs=steps, vector_size=features)
+                        epochs=steps, vector_size=d)
     '''
         This model give features for each node
         To get features by node, use: model.wv[str(0)]
     '''
 
-    vec = dict()
+    features = dict()
     for node in range(graph.nodes_number):
-        vec[node] = model.wv[str(node)].copy()
+        features[node] = model.wv[str(node)].copy()
 
-    return vec
+    return features
+
+def graph2vec(graph: PapaGraph, d:int=3, r:int=10, 
+                lenght:int=10, p:float=1.0, q:float=1.0, 
+                steps:int=5, learning_rate:float=0.025) -> dict[int, list]:
+    ''' Return a matrix that mapping each node in a `d` dimensional space.
+
+    Input
+    ----
+    `graph`: A PapaGraph
+    `d`: Number of features
+    `r`: Number of random walks
+    `lenght`: Lenght of each random walk
+    `p`: Return parameter
+    `q`: In-Out paramenter
+    `steps`: Number of steps using Gradiente Descent
+    Output
+    ----
+    `features`: List of features
+
+    '''
+
+    
+    # Create a copy of the graph
+    graph = graph.copy()
+
+    # Add a new node
+    u = graph.nodes_number
+    graph.add_node()
+
+    # Add edge from the new node to all nodes
+    for v in range(u):
+        graph.add_edge(u, v, bidirectional=False)
+    
+    # Call node2vec
+    features = node2vec(graph, d=d, r=r, lenght=lenght, p=p, q=q, steps=steps)
+
+    # Return features of the newnode
+    return features[u]
 
 if __name__ == '__main__':
     graph = handmade_sample()
     
-    vec = node2vec(graph, lenght=5, r=3)
+    feature = graph2vec(graph, d= 5, lenght=5, r=3)
 
-    print(vec)
+    print(feature)
 
 
