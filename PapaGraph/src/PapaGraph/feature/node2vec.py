@@ -11,7 +11,7 @@ def listOfListAny2listOfListStr(lists:list[list])->list[list[str]]:
 def node2vec(   graph: PapaGraph, d:int=3, r:int=10, 
                 lenght:int=10, p:float=1.0, q:float=1.0, 
                 steps:int=5, learning_rate:float=0.025) -> dict[int, list]:
-    ''' Return a matrix that mapping each node in a `d` dimensional space.
+    ''' Dictionary that mapping each node into a `d` dimensional space.
 
     Input
     ----
@@ -47,8 +47,8 @@ def node2vec(   graph: PapaGraph, d:int=3, r:int=10,
 
 def graph2vec(graph: PapaGraph, d:int=3, r:int=10, 
                 lenght:int=10, p:float=1.0, q:float=1.0, 
-                steps:int=5, learning_rate:float=0.025) -> dict[int, list]:
-    ''' Return a matrix that mapping each node in a `d` dimensional space.
+                steps:int=5, learning_rate:float=0.025) -> list:
+    ''' Return a list of `d` features.
 
     Input
     ----
