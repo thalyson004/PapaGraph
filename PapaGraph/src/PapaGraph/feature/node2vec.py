@@ -22,6 +22,7 @@ def node2vec(   graph: PapaGraph, d:int=3, r:int=10,
     `p`: Return parameter
     `q`: In-Out paramenter
     `steps`: Number of steps using Gradiente Descent
+    
     Output
     ----
     `features`: Dictionary that mapping node to features
@@ -60,6 +61,7 @@ def graph2vec(graph: PapaGraph, d:int=3, r:int=10,
     `q`: In-Out paramenter
     `steps`: Number of steps using Gradiente Descent
     `add_feature`: If is True, add the features into graph features
+
     Output
     ----
     `features`: List of features
