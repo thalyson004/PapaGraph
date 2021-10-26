@@ -1,18 +1,16 @@
 
+import copy
+
 class PapaGraph:
-    __nodes_number:int = 0
-    __nodes_features:list[dict] = []
-
-    __edges_number:int = 0
-    __edges_features:list[dict] = []
-    __edges_list:list[tuple] = []
-
-    __adjacency_list:list[list[tuple]] = []
-
-    __graph_features:dict = {}
 
     def __init__(self):
-        pass
+        self.__nodes_number:int = 0
+        self.__nodes_features:list[dict] = []
+        self.__edges_number:int = 0
+        self.__edges_features:list[dict] = []
+        self.__edges_list:list[tuple] = []
+        self.__adjacency_list:list[list[tuple]] = []
+        self.__graph_features:dict = {}
 
     @property
     def nodes_number(self):
@@ -77,6 +75,9 @@ class PapaGraph:
         
             for i in range(quantity):
                 self.add_node(features=features_list[i])
+    
+    def copy(self):
+        return copy.deepcopy(self)
 
     #TODO: neighbors of a node
     def neighbors(self, node_index:int):
@@ -96,4 +97,10 @@ if __name__ == '__main__':
     print(graph.graph_features)
     '''
     graph.add_nodes(quantity=2, features_list=[{},{}] )
+    print(graph.nodes_features, '------')
+
+    newGraph = graph.copy()
+    newGraph.add_node()
+    
     print(graph.nodes_features)
+    print(newGraph.nodes_features)
