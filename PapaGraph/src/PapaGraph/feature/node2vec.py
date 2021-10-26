@@ -2,9 +2,11 @@ from PapaGraph.PapaGraph.PapaGraph import PapaGraph
 from PapaGraph.sample.handmande import handmade_sample
 from PapaGraph.walk.random_walk import probability_matrix, random_walk_r
 import random 
+import math
 
 def node2vec(   graph: PapaGraph, d:int=3, r:int=10, 
-                lenght:int=10, p:float=1.0, q:float=1.0, steps:int=1000):
+                lenght:int=10, p:float=1.0, q:float=1.0, 
+                steps:int=1000, learning_rate:float=0.0001):
     ''' Return a matrix that mapping each node in a `d` dimensional space.
 
     Input
@@ -40,9 +42,12 @@ def node2vec(   graph: PapaGraph, d:int=3, r:int=10,
     #         print(u, v,':', similarity_embedding(u, v))
 
     # TODO: Optimaze the features using Stochastic Gradient Descent 
+    #       (page 28: P(x,y) function) 
     #       (page 35: http://web.stanford.edu/class/cs224w/slides/03-nodeemb.pdf)
 
-    
+    for step in range(steps):
+        node = random.randint(0, graph.nodes_number-1)
+
 
 
     return features

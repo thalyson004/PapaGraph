@@ -15,7 +15,6 @@ graph.add_edge(4,7, bidirectional=True)
 graph.add_edge(4,5, bidirectional=True)
 graph.add_edge(4,6, bidirectional=True)
 graph.add_edge(5,6, bidirectional=True)
-
 samples.append(graph)
 
 def handmade_sample(index:int = 0):
