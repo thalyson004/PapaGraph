@@ -78,6 +78,30 @@ def random_walk_r(graph:PapaGraph, start:int, r:int=3, lenght:int=10, p:float=1.
         walks.append(random_walk(graph, start, lenght, p, q))
     return walks
 
+def random_walk_r_all(graph:PapaGraph, r:int=3, lenght:int=10, p:float=1.0, q:float=1.0): 
+    '''Generate ``r`` random walks per node.
+    
+    Input
+    ----
+    `graph`: A PapaGraph
+    `lenght`: Lenght of the walk
+    `r`: Quantity of random walks
+    `p`: Return paramenter
+    `q`: In-Out paramenter
+
+    Output
+    ----
+    `walks`: A list of lists of nodes representing random walks
+    '''
+
+    walks = []
+    for node in range(graph.nodes_number):
+        fromNode = random_walk_r(graph, node, r, lenght=lenght, p=p, r=r)
+        for walk in fromNode:
+            walks.append(walk)
+            
+    return walks
+
 def probability_matrix(graph:PapaGraph, r:int=10, lenght:int=10, p:float=1.0, q:float=1.0):
     '''Returns a matrix `probabilities` that cell ``[u][v]``
     represents the probability to reach node `v` from node `u`
