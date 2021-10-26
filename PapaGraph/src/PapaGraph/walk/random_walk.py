@@ -96,7 +96,7 @@ def random_walk_r_all(graph:PapaGraph, r:int=3, lenght:int=10, p:float=1.0, q:fl
 
     walks = []
     for node in range(graph.nodes_number):
-        fromNode = random_walk_r(graph, node, r, lenght=lenght, p=p, r=r)
+        fromNode = random_walk_r(graph, node, r, lenght=lenght, p=p, q=q)
         for walk in fromNode:
             walks.append(walk)
             
