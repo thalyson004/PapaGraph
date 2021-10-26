@@ -47,7 +47,7 @@ def node2vec(   graph: PapaGraph, d:int=3, r:int=10,
 
 def graph2vec(graph: PapaGraph, d:int=3, r:int=10, 
                 lenght:int=10, p:float=1.0, q:float=1.0, 
-                steps:int=5, learning_rate:float=0.025) -> list:
+                steps:int=5, learning_rate:float=0.025, add_feature:bool=False) -> list:
     ''' Return a list of `d` features.
 
     Input
@@ -59,35 +59,43 @@ def graph2vec(graph: PapaGraph, d:int=3, r:int=10,
     `p`: Return parameter
     `q`: In-Out paramenter
     `steps`: Number of steps using Gradiente Descent
+    `add_feature`: If is True, add the features into graph features
     Output
     ----
     `features`: List of features
 
     '''
 
-    
     # Create a copy of the graph
-    graph = graph.copy()
+    graphCopied = graph.copy()
 
     # Add a new node
-    u = graph.nodes_number
-    graph.add_node()
+    u = graphCopied.nodes_number
+    graphCopied.add_node()
 
     # Add edge from the new node to all nodes
     for v in range(u):
-        graph.add_edge(u, v, bidirectional=False)
+        graphCopied.add_edge(u, v, bidirectional=False)
     
     # Call node2vec
-    features = node2vec(graph, d=d, r=r, lenght=lenght, p=p, q=q, steps=steps)
+    features = node2vec(graphCopied, d=d, r=r, 
+                        lenght=lenght, p=p, q=q, 
+                        steps=steps, learning_rate=learning_rate
+                        )[u]
+    
+
+    if add_feature:
+        for i, feature in enumerate(features):
+            graph.add_feature("f"+str(i), feature)
 
     # Return features of the newnode
-    return features[u]
+    return features
 
 if __name__ == '__main__':
     graph = handmade_sample()
     
-    feature = graph2vec(graph, d= 5, lenght=5, r=3)
+    feature = graph2vec(graph, d= 5, lenght=5, r=3, add_feature=True)
 
-    print(feature)
+    print(graph.graph_features)
 
 
