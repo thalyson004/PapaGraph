@@ -25,7 +25,7 @@ def convert_from_ogb(ogb_graph:dict):
     # TODO: Change edges_features from list[list] to list[dict]
     for i in range(len(edges_features)):
         # print(edges_features[i])
-        ans.add_edge( edges[0][i], edges[1][i], features=edges_features[i] ) 
+        ans.add_edge( edges[0][i], edges[1][i], features=edges_features[i], bidirectional=True) 
 
     return ans
 
@@ -33,5 +33,7 @@ if __name__ == '__main__':
     graphs = read_csv_graph_raw("E:/Projetos/Doctorate/MLG/Machine-Learning-with-Graphs/data/homework02/ogbg_molhiv/raw")
     graph = convert_from_ogb(graphs[0])
 
-    print(graph.edges_features, "\n")
-    print(graph.nodes_features, "\n")
+    print("Nodes =", graph.nodes_number)
+    print("Edges =", graph.edges_number)
+    #print(graph.edges_features, "\n")
+    #print(graph.nodes_features, "\n")
