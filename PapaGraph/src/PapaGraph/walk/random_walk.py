@@ -1,6 +1,7 @@
 from PapaGraph.PapaGraph.PapaGraph import PapaGraph
 from PapaGraph.algorithm.shortest_path import steps_from
 from PapaGraph.sample.handmande import handmade_sample
+from joblib import Parallel, delayed
 import random
 
 # TODO: If i'm on node with no neighbors, actual algorithm not work properly

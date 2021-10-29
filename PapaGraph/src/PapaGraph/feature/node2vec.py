@@ -10,7 +10,7 @@ def listOfListAny2listOfListStr(lists:list[list])->list[list[str]]:
 
 def node2vec(   graph: PapaGraph, d:int=3, r:int=10, 
                 lenght:int=10, p:float=1.0, q:float=1.0, 
-                steps:int=5, learning_rate:float=0.025) -> dict[int, list]:
+                epochs:int=5, learning_rate:float=0.025) -> dict[int, list]:
     ''' Dictionary that mapping each node into a `d` dimensional space.
 
     Input
@@ -34,7 +34,7 @@ def node2vec(   graph: PapaGraph, d:int=3, r:int=10,
     model = Word2Vec(   words, 
                         window=5, min_count=1, sg=1, 
                         workers=2, alpha=learning_rate,
-                        epochs=steps, vector_size=d)
+                        epochs=epochs, vector_size=d)
     '''
         This model give features for each node
         To get features by node, use: model.wv[str(0)]
@@ -48,7 +48,7 @@ def node2vec(   graph: PapaGraph, d:int=3, r:int=10,
 
 def graph2vec(graph: PapaGraph, d:int=3, r:int=10, 
                 lenght:int=10, p:float=1.0, q:float=1.0, 
-                steps:int=5, learning_rate:float=0.025, add_feature:bool=False) -> list:
+                epochs:int=5, learning_rate:float=0.025, add_feature:bool=False) -> list:
     ''' Return a list of `d` features.
 
     Input
@@ -59,7 +59,7 @@ def graph2vec(graph: PapaGraph, d:int=3, r:int=10,
     `lenght`: Lenght of each random walk
     `p`: Return parameter
     `q`: In-Out paramenter
-    `steps`: Number of steps using Gradiente Descent
+    `epochs`: Number of epochs using in word2vec
     `add_feature`: If is True, add the features into graph features
 
     Output
@@ -82,7 +82,7 @@ def graph2vec(graph: PapaGraph, d:int=3, r:int=10,
     # Call node2vec
     features = node2vec(graphCopied, d=d, r=r, 
                         lenght=lenght, p=p, q=q, 
-                        steps=steps, learning_rate=learning_rate
+                        epochs=epochs, learning_rate=learning_rate
                         )[u]
     
 
