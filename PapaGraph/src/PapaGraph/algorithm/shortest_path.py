@@ -32,7 +32,6 @@ def steps_from(graph:PapaGraph, start:int)->list[int]:
 
     return distances
 
-
 if __name__=='__main__':
     graph = handmande.handmade_sample()
 
